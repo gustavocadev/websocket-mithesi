@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import { db } from '../db/db';
 import { comment, SelectComment, userTable } from '../db/schema';
 
@@ -12,7 +12,8 @@ export const getCommentsByProjectId = async (
     })
     .from(comment)
     .innerJoin(userTable, eq(comment.userId, userTable.id))
-    .where(eq(comment.thesisProjectId, projectId));
+    .where(eq(comment.thesisProjectId, projectId))
+    .orderBy(asc(comment.createdAt));
 
   return comments.map((comment) => ({
     ...comment.comment,
