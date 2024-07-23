@@ -2,15 +2,15 @@ import { cors } from '@elysiajs/cors';
 import { Elysia, t } from 'elysia';
 import { createComment, getCommentsByProjectId } from './services/comment';
 
-const publishComments = async (projectId: string) => {
+const publishComments = async (projectId: string): Promise<void> => {
   try {
     const comments = await getCommentsByProjectId(projectId);
-    app.server!.publish(
+    app.server?.publish(
       'comment',
       JSON.stringify({
         type: 'get-comments',
         payload: comments,
-      })
+      }),
     );
   } catch (error) {
     console.log('Error:', error);
@@ -64,5 +64,5 @@ const app = new Elysia()
   .listen(Bun.env.PORT || 8080);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
 );
